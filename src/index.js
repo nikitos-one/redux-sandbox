@@ -1,39 +1,27 @@
+import React from "react";
+import ReactDOM from 'react-dom/client';
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer, {
-  incremented,
-  decremented,
-  random
-} from './counterSlice'
+import { Provider} from "react-redux";
+
+import App from './components/app';
+import reducer from './counterSlice';
 
 import './main.sass';
 
 const store = configureStore({
-  reducer: counterReducer
+  reducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
-document
-  .getElementById('inc')
-  .addEventListener('click', () => {
-    store.dispatch(incremented());
-  });
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
 
-document
-  .getElementById('dec')
-  .addEventListener('click', () => {
-    store.dispatch(decremented());
-  });
-
-document
-  .getElementById('rnd')
-  .addEventListener('click', () => {
-    const payload = Math.floor(Math.random() * 10);
-    store.dispatch(random(payload));
-  });
-
-const update = () => {
-  document
-    .getElementById('counter')
-    .innerHTML = store.getState().value;
-}
-
-store.subscribe(update);

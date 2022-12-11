@@ -6,10 +6,10 @@ const counterSlice = createSlice({
     value: 0
   },
   reducers: {
-    incremented: state => {
+    incremented: (state) => {
       state.value += 1;
     },
-    decremented: state => {
+    decremented: (state) => {
       state.value -= 1;
     },
     random: (state, action) => {
@@ -18,8 +18,6 @@ const counterSlice = createSlice({
   }
 });
 
-// this is for dispatch
-export const { incremented, decremented, random } = counterSlice.actions;
+export const { actions } = counterSlice;
 
-// this is for configureStore
 export default counterSlice.reducer;
